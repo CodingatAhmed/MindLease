@@ -4,6 +4,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "allowImportingTsExtensions": true,
+    "noEmit": true,
     "rewriteRelativeImportExtensions": true,
     "resolvePackageJsonExports": true,
     "esModuleInterop": true,
@@ -16,6 +17,7 @@
     "target": "ES2022",
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": "./src",
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
@@ -24,5 +26,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": ["src/**/*.ts"], // <--- ADD THIS: Ensures only src is compiled
+  "exclude": ["node_modules", "dist"]
 }

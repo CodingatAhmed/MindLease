@@ -1,0 +1,9 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/artifacts": true,
+    "**/cache": true,
+    "**/dist": true
+  }
+}

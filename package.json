@@ -1,0 +1,27 @@
+{
+  "name": "mindlease",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MindLease: Web3 AI Agent Rental Platform",
+  "scripts": {
+    "dev:backend": "pnpm --filter backend run start:dev",
+    "dev:frontend": "pnpm --filter frontend run dev",
+    "dev:contracts": "pnpm --filter smart-contracts run compile",
+    "dev": "pnpm --recursive --parallel run dev",
+    "build": "pnpm --recursive run build",
+    "test": "pnpm --recursive run test",
+    "install:all": "pnpm install"
+  },
+  "keywords": [
+    "web3",
+    "nestjs",
+    "react",
+    "pnpm-workspace"
+  ],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.2.0",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

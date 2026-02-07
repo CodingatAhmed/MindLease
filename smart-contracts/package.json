@@ -8,8 +8,6 @@
     "deploy": "hardhat run scripts/deploy.ts"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-    "hardhat": "^2.19.0",
     "typescript": "^5.9.3"
   }
 }

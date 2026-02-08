@@ -13,12 +13,13 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "rootDir": "src",
     "target": "ES2022",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@mindlease/shared": ["../packages/shared/index.ts"]
+      "@mindlease/shared": ["../packages/shared/dist"]
     },
     "incremental": true,
     "skipLibCheck": true,
@@ -28,6 +29,6 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
   },
-  "include": ["src/**/*.ts"], // <--- ADD THIS: Ensures only src is compiled
+  "include": ["src/**/*"], // <--- ADD THIS: Ensures only src is compiled
   "exclude": ["node_modules", "dist"]
 }

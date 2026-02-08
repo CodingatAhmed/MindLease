@@ -87,4 +87,8 @@ export class AuthService {
       throw new UnauthorizedException('Authentication failed');
     }
   }
+
+  async getFreshUser(userId: string) {
+  return this.usersService.findById(userId); // Ensure you add findById to UsersService
+}
 }

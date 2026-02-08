@@ -1,6 +1,6 @@
 import { Controller, Get, Logger } from '@nestjs/common';
 import { AppService } from './app.service'; // Fixed .ts extension (standard import)
-
+// Ensure this path is correct based on your project structure
 @Controller()
 export class AppController {
   // 1. Basic logger service using console.log for Phase 0

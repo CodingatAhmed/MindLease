@@ -1,27 +1,26 @@
-import { IsString, IsNumber, IsArray, IsEnum, MinLength, IsNotEmpty, Min } from 'class-validator';
-import { UserRole } from '@mindlease/shared';
+import { IsString, IsNumber, IsArray, MinLength, IsNotEmpty, Min, IsOptional } from 'class-validator';
 
 export class CreateAgentDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
-  name: string;
+  name!: string;
 
   @IsString()
   @IsNotEmpty()
   @MinLength(10)
-  description: string;
+  description!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  category!: string; // Added: Critical for marketplace filtering
 
   @IsNumber()
   @Min(0)
-  basePrice: number;
+  basePrice!: number;
 
   @IsArray()
   @IsString({ each: true })
-  capabilities: string[];
-
-  // This ensures the frontend doesn't accidentally try to assign
-  // an agent to a role that doesn't exist in our shared package
-  @IsEnum(UserRole)
-  ownerRole: UserRole;
+  @IsOptional() // Made optional so creators aren't forced to add them immediately
+  capabilities?: string[];
 }

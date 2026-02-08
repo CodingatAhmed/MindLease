@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType, Logger } from '@nestjs/common';
+import {AllExceptionsFilter} from './common/filters/http-exception.filter';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -25,6 +26,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  // Add this inside bootstrap()
+app.useGlobalFilters(new AllExceptionsFilter());
 
   // 4. URI Versioning (http://localhost:3000/api/v1/...)
   app.enableVersioning({

@@ -2,15 +2,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-// import { UserRole } from '../users/enums/roles.enum';
 import { JwtPayload } from '@mindlease/shared';
 
-// Updated interface to include role and sub (ID)
-// interface JwtPayload {
-//   sub: string;            // The MongoDB _id
-//   walletAddress: string;
-//   role: UserRole;         // The role (creator/renter)
-// }
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

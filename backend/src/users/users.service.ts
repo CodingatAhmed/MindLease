@@ -14,12 +14,22 @@ export class UsersService {
 
   // Updated to accept an object with the role
   async create(userData: { walletAddress: string; role: UserRole }): Promise<UserDocument> {
+
+    const address = userData.walletAddress.toLowerCase();
+    const existing = await this.findByAddress(address);
+    if (existing) return existing;
     const newUser = new this.userModel({
-      walletAddress: userData.walletAddress.toLowerCase(),
+      walletAddress: address,
       role: userData.role,
+      nonce: Math.floor(Math.random() * 1000000).toString(),
       // displayName can be left empty or set as a default here
-      displayName: `User_${userData.walletAddress.slice(0, 6)}`, 
+      displayName: `User_${address.slice(2, 8)}`, 
     });
     return newUser.save();
   }
+
+  // Add this method
+  async findById(id: string): Promise<UserDocument | null> {
+  return this.userModel.findById(id).exec();
+}
 }

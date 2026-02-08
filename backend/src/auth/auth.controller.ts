@@ -1,10 +1,10 @@
-import { Controller, Post, Body, Get, UseGuards, Req, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req, Param, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LoginDto } from './dto/login.dto';
-// import { UserRole } from '../users/enums/roles.enum';
 import { UserRole } from '@mindlease/shared';
+
 
 // 1. Updated Interface to include Role
 interface RequestWithUser extends Request {
@@ -31,9 +31,11 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('me')
-  getProfile(@Req() req: RequestWithUser) {
-    // This now returns { userId, walletAddress, role }
-    return req.user;
-  }
+@Get('me')
+async getProfile(@Req() req: RequestWithUser) {
+  // Instead of just returning the token payload, get the full user from DB
+  const user = await this.authService.getFreshUser(req.user.userId);
+  if (!user) throw new UnauthorizedException('User no longer exists');
+  return user;
+}
 }

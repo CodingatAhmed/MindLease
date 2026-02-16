@@ -7,6 +7,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {UsersModule} from './users/users.module';
 import {AgentsModule} from './agents/agents.module';
+import {LeaseModule} from './lease/lease.module';
+import {ChatModule} from './chat/chat.module';
 // import {UsersModule} from './users/users.module';
 
 @Module({
@@ -14,6 +16,8 @@ import {AgentsModule} from './agents/agents.module';
     AuthModule,
     UsersModule,
     AgentsModule,
+    LeaseModule, 
+    ChatModule,
     // 1. ConfigModule with .env support [cite: 88, 523]
     ConfigModule.forRoot({
       isGlobal: true,

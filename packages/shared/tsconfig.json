@@ -2,7 +2,8 @@
   "compilerOptions": {
     "module": "CommonJS",
     "target": "ES2020",
-    "declaration": true,
+    "noEmit": true,
+    "declaration": false,
     "outDir": "./dist",
     "rootDir": "./src",      
     "strict": true,

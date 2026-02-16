@@ -14,14 +14,14 @@ export class AgentsService {
     const createdAgent = new this.agentModel({
       ...createAgentDto,
       creator: new Types.ObjectId(userId),
-      status: AgentStatus.ACTIVE, // Use Enum
+      status: AgentStatus.ACTIVE,
     });
     return await createdAgent.save();
   }
 
   async findAllActive(): Promise<Agent[]> {
     return await this.agentModel
-      .find({ status: AgentStatus.ACTIVE }) // Use Enum
+      .find({ status: AgentStatus.ACTIVE })
       .populate('creator', 'walletAddress displayName')
       .exec();
   }
@@ -34,7 +34,12 @@ export class AgentsService {
 
   async findOne(id: string): Promise<Agent> {
     const agent = await this.agentModel.findById(id).populate('creator').exec();
-    if (!agent) throw new NotFoundException('Agent not found');
+    
+    // This check satisfies TypeScript that 'agent' is not null
+    if (!agent) {
+      throw new NotFoundException(`Agent with ID ${id} not found`);
+    }
+    
     return agent;
   }
 
@@ -42,26 +47,53 @@ export class AgentsService {
     return await this.agentModel
       .find({ 
         currentRenter: new Types.ObjectId(userId),
-        status: AgentStatus.RENTED // Logically, if I'm renting it, the status is RENTED
+        status: AgentStatus.RENTED
       })
       .exec();
   }
 
   async update(id: string, userId: string, updateData: Partial<CreateAgentDto>): Promise<Agent> {
+    // 1. Check if agent exists and check ownership
     const agent = await this.findOne(id);
     
     if (agent.creator.toString() !== userId) {
       throw new ForbiddenException('You do not own this agent');
     }
 
-    return await this.agentModel.findByIdAndUpdate(id, updateData, { new: true }).exec();
+    // 2. Perform the update
+    const updatedAgent = await this.agentModel
+      .findByIdAndUpdate(id, updateData, { new: true })
+      .exec();
+
+    // 3. Explicit check to ensure the return type is 'Agent' and not 'null'
+    if (!updatedAgent) {
+      throw new NotFoundException('Update failed: Agent no longer exists');
+    }
+
+    return updatedAgent;
   }
+
+  async markAsRented(agentId: string, renterId: string): Promise<void> {
+  await this.agentModel.findByIdAndUpdate(agentId, {
+    status: AgentStatus.RENTED,
+    currentRenter: new Types.ObjectId(renterId)
+  }).exec();
+}
 
   async delete(id: string, userId: string): Promise<void> {
     const agent = await this.findOne(id);
+    
     if (agent.creator.toString() !== userId) {
       throw new ForbiddenException('You do not own this agent');
     }
+    
     await this.agentModel.findByIdAndDelete(id).exec();
   }
+
+  async markAsAvailable(agentId: string): Promise<void> {
+  await this.agentModel.findByIdAndUpdate(agentId, {
+    status: AgentStatus.ACTIVE,
+    currentRenter: null // Remove the renter reference
+  }).exec();
+}
 }

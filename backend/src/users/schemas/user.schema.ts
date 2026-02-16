@@ -22,6 +22,9 @@ export class User {
 
   @Prop({ default: () => Math.floor(Math.random() * 1000000).toString() })
   nonce!: string;
+
+  @Prop()
+  refreshToken?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

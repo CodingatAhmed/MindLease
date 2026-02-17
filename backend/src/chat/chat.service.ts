@@ -40,10 +40,11 @@ export class ChatService {
         .exec();
 
       // Reverse so it's in chronological order for OpenAI
-      const formattedHistory = history.reverse().map((msg) => ({
-        role: msg.role as 'user' | 'assistant',
-        content: msg.content,
-      }));
+      const formattedHistory: ChatCompletionMessageParam[] = history.reverse().map((msg) => ({
+  // Convert 'agent' (DB) to 'assistant' (OpenAI)
+  role: (msg.role === 'agent' ? 'assistant' : 'user'),
+  content: msg.content,
+}));
 
       // 3. Define the Agent's "Persona
       // 1. Get Knowledge Context

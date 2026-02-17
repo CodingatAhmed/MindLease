@@ -3,4 +3,6 @@ export * from './enums/agent-status.enum';
 export * from './enums/roles.enum';
 export * from './interfaces/jwt-payload.interface';
 export * from "./interfaces/knowledge-search-result.interface"
+export * from "./interfaces/pdf-parse-result.interface"
+export * from "./interfaces/ingestion-response.interface"
 export * from './constants/api-version.const';
